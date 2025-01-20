@@ -77,18 +77,40 @@ public class HelpMethods {
         return vampireArrayList;
     }
 
-    public static boolean canMoveHere(float x, float y, GameMaps gameMaps){
-        addToInsideHouseCollisonList();
-        if(x < 0 || y < 0){return false;}
+    public static float MoveNextToTileUpDown(RectF hitbox, float cameraY, float deltaY) {
+        int currentTile;
+        int playerPosY;
+        float cameraYReturn;
 
-        if(x >= (gameMaps.getWidth() * GameConstant.Maps.SIZE) || y >= (gameMaps.getHeight() * GameConstant.Maps.SIZE)){return false;}
+        if (deltaY > 0) {
+            playerPosY = (int) (hitbox.top - cameraY);
+            currentTile = playerPosY / GameConstant.Maps.SIZE;
+            cameraYReturn = hitbox.top - (currentTile * GameConstant.Maps.SIZE);
+        } else {
+            playerPosY = (int) (hitbox.bottom - cameraY);
+            currentTile = playerPosY / GameConstant.Maps.SIZE;
+            cameraYReturn = hitbox.bottom - (currentTile * GameConstant.Maps.SIZE) - (GameConstant.Maps.SIZE - 1);
+        }
 
-        int tileX = (int)(x / GameConstant.Maps.SIZE);
-        int tileY = (int)(y / GameConstant.Maps.SIZE);
+        return cameraYReturn;
+    }
 
-        int tileID = gameMaps.getSpriteID(tileX, tileY);
+    public static float MoveNextToTileLeftRight(RectF hitbox, float cameraX, float deltaX) {
+        int currentTile;
+        int playerPosX;
+        float cameraXReturn;
 
-        return isTileWalkable(tileID, gameMaps.getFloorType());
+        if (deltaX > 0) {
+            playerPosX = (int) (hitbox.left - cameraX);
+            currentTile = playerPosX / GameConstant.Maps.SIZE;
+            cameraXReturn = hitbox.left - (currentTile * GameConstant.Maps.SIZE);
+        } else {
+            playerPosX = (int) (hitbox.right - cameraX);
+            currentTile = playerPosX / GameConstant.Maps.SIZE;
+            cameraXReturn = hitbox.right - (currentTile * GameConstant.Maps.SIZE) - (GameConstant.Maps.SIZE - 1);
+        }
+
+        return cameraXReturn;
     }
 
     public static boolean CanWalkHere(RectF hitbox, float deltaX, float deltaY, GameMaps gameMap) {
@@ -101,6 +123,30 @@ public class HelpMethods {
             return false;
 
         Point[] tileCords = GetTileCords(hitbox, deltaX, deltaY);
+        int[] tileIds = GetTileIds(tileCords, gameMap);
+
+        return tileLoop(tileIds, gameMap.getFloorType());
+    }
+
+    public static boolean CanWalkHereUpDown(RectF hitbox, float deltaY, float currentCameraX, GameMaps gameMap) {
+        if (hitbox.top + deltaY < 0)
+            return false;
+        else if (hitbox.bottom + deltaY >= gameMap.getHeight() * GameConstant.Maps.SIZE)
+            return false;
+
+        Point[] tileCords = GetTileCords(hitbox, currentCameraX, deltaY);
+        int[] tileIds = GetTileIds(tileCords, gameMap);
+
+        return tileLoop(tileIds, gameMap.getFloorType());
+    }
+
+    public static boolean CanWalkHereLeftRight(RectF hitbox, float deltaX, float currentCameraY, GameMaps gameMap) {
+        if (hitbox.left + deltaX < 0)
+            return false;
+        else if (hitbox.right + deltaX >= gameMap.getWidth() * GameConstant.Maps.SIZE)
+            return false;
+
+        Point[] tileCords = GetTileCords(hitbox, deltaX, currentCameraY);
         int[] tileIds = GetTileIds(tileCords, gameMap);
 
         return tileLoop(tileIds, gameMap.getFloorType());
