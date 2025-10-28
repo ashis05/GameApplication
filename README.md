@@ -74,7 +74,7 @@ That’s it! The game should launch and display the start screen.
 
 **Ashis Wadhwani**  
 📍 Developer & Designer of the project  
-🔗 [GitHub Profile](https://github.com/yourusername)
+🔗 [GitHub Profile](https://github.com/ashis05)
 
 ---
 
