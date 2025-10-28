@@ -36,7 +36,7 @@ This project focuses on mastering:
 
 | Gameplay | Start Menu | Indoor Scene |
 |-----------|-------------|--------------|
-| ![Gameplay](assets/gameplay1.jpg) | ![Menu](assets/menu.jpg) | ![Indoor](assets/indoor.jpg) |
+| ![Gameplay](assests/gameplay1.jpg) | ![Menu](assests/menu.jpg) | ![Indoor](assests/indoor.jpg) |
 
 > *(Replace with your actual file paths if you upload images to `/assets` folder in your repo)*
 
